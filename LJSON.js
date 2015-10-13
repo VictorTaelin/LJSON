@@ -72,6 +72,8 @@ var LJSON = (function LJSON(){
             else return null;
         })(value);
     };
+    // TODO: implement the safe parse by adding function and function calls to
+    // JSON's grammar.
     function unsafeParse(a){
         return eval(a);
     };
