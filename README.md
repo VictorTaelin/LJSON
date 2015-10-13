@@ -5,6 +5,7 @@
 ```JavaScript
 var LJSON = require("LJSON");
 
+// `newPlayer` is a function and couldn't be serialized with JSON.
 function newPlayer(name){
     return {
         name      : name,
@@ -14,6 +15,7 @@ function newPlayer(name){
         inventory : []}
 };
 
+// LJSON has no trouble doing it because it is pure.
 var newPlayerSource = LJSON.stringify(newPlayer); 
 var John            = LJSON.parse(newPlayerSource)("John");
 
@@ -28,63 +30,14 @@ Output:
 
 ## More info
 
-- [Normal Form](normal-form)
 - [Primitives](primitives)
 - [Safety](safety)
+- [Normal Form](normal-form)
 - [TODO](todo)
-
-## Normal form
-
-In the same way that JSON stringifies `3e10` as `300` - i.e., only the actual value, not the original source is preserved - λJSON stringifies functions using their [normal forms](https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)). That is, for example:
-
-```javascript
-function(x){
-    function id(x){
-        return x;
-    };
-    return id(id(id(x)));
-}
-```
-
-Is stringified as:
-    
-```javascript
-(function(v1){return v1})
-```
-    
-That is because both definitions are equivalent, i.e., they always return the received argument. That also means compile-time computations are always executed:
-
-```javascript
-function canIUseThat(what, where){
-    var what  = "bike";
-    var where = "indoor";
-    switch (what){
-        case "bike": switch (where){
-            case "cave"  : return "Yes, it is a good time to use that."
-            case "road"  : return "Yes, it is a good time to use that."
-            case "indoor": return "No, it is not the time to use that."
-        };
-        case "escape rope": switch (where){
-            case "cave"  : return "Yes, it is a good time to use that."
-            case "road"  : return "No, it is not the time to use that."
-            case "indoor": return "No, it is not the time to use that."
-        };
-    };
-};
-```
-
-Is stringified as:
-
-```javascript
-(function(v0,v1){return "No, it is not the time to use that."})
-```
-
-Because the function always returns the same string.
-
 
 ## Primitives
 
-LJSON only adds pure functions to JSON, so no primitive is available. That excludes mathematical operators, for-loops, conditionals etc. You can still use those when they can be removed before stringification:
+LJSON adds pure functions to JSON and nothing else - no primitive is available. That means you can't use mathematical operators, for-loops, conditionals etc. at all on the functions, because those are not part of the spec. You can still use those when they can be removed before stringification:
 
 ```JavaScript
 function repeat10Times(value){
@@ -95,19 +48,19 @@ function repeat10Times(value){
 };
 ```
 
-This is stringified as:
+which is stringified as:
 
 ```javascript
 (function(v0){return [v0,v0,v0,v0,v0,v0,v0,v0,v0,v0]})
 ```
 
-But when you want to use primitives on variables, you have to explicitly demand them as arguments:
+But if you want to use primitives on variables, you have to explicitly demand them as arguments:
 
 ```JavaScript
 LJSON = require("./ljson.js");
 
-// Creates a function that computes the Bhaskara formula, given a set of
-// mathematical primitives (negation, adition, subtraction and square roots).
+// Creates a function that computes the Bhaskara formula, 
+// and depends on a set of mathematical primitives.
 function makeBhaskara(neg,add,sub,mul,div,sqrt){
     return function bhaskara(a,b,c){
         var delta = sqrt(sub(mul(b,b),mul(mul(4,a),c))); // sqrt(b*b - 4*a*c)
@@ -168,6 +121,54 @@ function nastyPair(a,b){
 // mwahahhahha
 // (function(v0,v1){return {fst:v0,snd:v1})
 ```
+
+## Normal form
+
+In the same way that JSON stringifies `3e10` as `300` - i.e., only the actual value, not the original source is preserved - λJSON stringifies functions using their [normal forms](https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)). That is, for example:
+
+```javascript
+function(x){
+    function id(x){
+        return x;
+    };
+    return id(id(id(x)));
+}
+```
+
+Is stringified as:
+    
+```javascript
+(function(v1){return v1})
+```
+    
+That is because both definitions are equivalent, i.e., they always return the received argument. That also means compile-time computations are always executed:
+
+```javascript
+function canIUseThat(what, where){
+    var what  = "bike";
+    var where = "indoor";
+    switch (what){
+        case "bike": switch (where){
+            case "cave"  : return "Yes, it is a good time to use that."
+            case "road"  : return "Yes, it is a good time to use that."
+            case "indoor": return "No, it is not the time to use that."
+        };
+        case "escape rope": switch (where){
+            case "cave"  : return "Yes, it is a good time to use that."
+            case "road"  : return "No, it is not the time to use that."
+            case "indoor": return "No, it is not the time to use that."
+        };
+    };
+};
+```
+
+Is stringified as:
+
+```javascript
+(function(v0,v1){return "No, it is not the time to use that."})
+```
+
+Because the function always returns the same string.
 
 ## TODO
 
