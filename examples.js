@@ -39,7 +39,34 @@ function userLib(foldr,cons){
 // That user stringifies his library and sends it to you via sockets:
 var userLibStr = LJSON.stringify(userLib);
 
-// You recover his original code by parsing:
+// For the curious, this is the stringification of `userLibStr`:
+//    (function(v0, v1) {
+//        return {
+//            foldl: (function(v2, v3, v4) {
+//                return v0((function(v5, v6) {
+//                    return (function(v7) {
+//                        return v6(v2(v7, v5))
+//                    })
+//                }), (function(v8) {
+//                    return v8
+//                }), v4)(v3)
+//            }),
+//            reverse: (function(v9) {
+//                return v0((function(v10, v11) {
+//                    return (function(v12) {
+//                        return v11(v1(v10, v12))
+//                    })
+//                }), (function(v13) {
+//                    return v13
+//                }), v9)([])
+//            }),
+//            concat: (function(v13, v15) {
+//                return v0(v1, v0(v1, [], v15), v14)
+//            })
+//        }
+//    })
+
+// You recover his original code by parsing that string:
 var userLib = LJSON.unsafeParse(userLibStr);
 
 // Now, to get the actual lib, you need to give it the promised primitives:
