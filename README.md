@@ -1,6 +1,6 @@
 ## λJSON 
 
-λJSON is a drop-in replacement for [JSON](http://www.json.org) which also includes pure functions. There are good security reasons for functions to be out of the JSON specs, but most of those are only significant when you allow arbitrary, side-effective programs. With pure functions, one is able to interchange code while still being as safe as regular JSON.
+λJSON is a drop-in replacement for [JSON](http://www.json.org) which also allows you to parse and stringify pure functions and their contents. There are good security reasons for functions to be out of the JSON specs, but most of those are only significant when you allow arbitrary, side-effective programs. With pure functions, one is able to interchange code while still being as safe as regular JSON.
 
 ```JavaScript
 var LJSON = require("LJSON");
