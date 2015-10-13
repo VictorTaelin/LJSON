@@ -114,8 +114,6 @@ function nastyPair(a,b){
         })(b)};
 };
 
-console.log(LJSON.stringify(nastyPair));
-
 // output: 
 // booom
 // mwahahhahha
@@ -174,8 +172,8 @@ Because the function always returns the same string.
 
 ## TODO
 
-This is just an open idea and not really a featured implementation. Currently, it doesn't include a proper parser. There is `LJSON.unsafeParse`, which works the same for safe programs, but it uses `eval` so you shouldn't use it on untrusted code.
+This is just an open idea and not really a featured implementation. Currently, it doesn't include a proper parser. There is `LJSON.unsafeParse`, which works the same for safe programs, but it uses `eval` so you shouldn't use it on untrusted code. Adding a safe parser shouldn't be a hard task as it is just a matter of adding functions and function application to the JSON's grammar - nasty things are excluded by the fact you can't use unbound variables. But I don't have the time right now - feel free to give it a try! I'll be coming to this problem later if nobody comes up with something.
 
-Moreover, there is no protection against non-terminating programs. Maybe a type system could be used?
+Moreover, there is no protection against non-terminating programs. Maybe a type system could be used? System F would ensure that 100% of the non-terminating programs are excluded, at the cost of also throwing away some that would terminate.
 
 And, of course, a precise specification. The informal specification can be stated as the JSON extended with functions operationally equivalent to the λ-calculus, except for allowing multiple arguments on abstractions and calls.
