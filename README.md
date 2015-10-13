@@ -187,6 +187,28 @@ There is no protection against non-terminating programs on the general case. A t
 
 For example, if you enable only mathematical operators, conditionals and bounded loops as primitives - and if you call your LJSON functions with nothing but first-order values (strings, ints, arrays, etc., but not other functions), then you are safe to say you program will halt. The reason is that, without loop primitives, users can't express things like `while(true)` - and, and since LJSON functions are in normal forms (which is easy to verify mechanically), users can't send non-terminating lambda-calculus expressions such as `(λ x . x x) (λ x . x x)` (those don't have a normal form). That is already enough power to encode most, if not all, practical algorithms, while still being safe to say they won't freeze your server. 
 
+#### Libraries
+
+Since programming LJSON functions is awkward, libraries for it would be handy. For example, one can design a set of safe-to-use primitives for LJSON values. A very good example would be `foldr` and `cons` for JSON arrays:
+
+    function foldr(array, cons, nil){
+        var result = nil;
+        for (var i=array.length-1; i>=0; ++i)
+            result = cons(array[i],result);
+        return result;
+    };
+    function cons(head, tail){
+        return head.concat(tail);
+    };
+
+Those 2 simple primitives give enough power to express every array-manipulating algorithm. For example, an user could define, given `foldr` and `cons`, is a library with `reverse`, `foldl` and `concat`. 
+    
+    var lib = LJSON.parse(untrustedSource)(foldr,cons);
+    console.log(lib.reverse([1,2,3,4,5,6,7)); // [7,6,5,4,3,2,1]
+    console.log(lib.concat([1,2,3],[4,5,6])); // [1,2,3,4,5,6]
+
+See `examples.js` for this particular example. Adding numerical operators would also enable `sum`, `sort`, `get`, `set`, `filter` and so on. Finding a balanced set of standard primitives is an interesting task.
+
 #### Specification
 
 And, of course, a precise specification. The informal specification can be stated as the JSON extended with functions operationally equivalent to the λ-calculus, except for allowing multiple arguments on abstractions and calls.

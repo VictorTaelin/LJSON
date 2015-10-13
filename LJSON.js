@@ -18,7 +18,7 @@ var LJSON = (function LJSON(){
                         function stringifyCall(args){
                             return "("+args.join(",")+")"
                         }
-                        return varName + (argList.length===0 ? "" : "("+argList.map(stringifyCall).join()+")");
+                        return varName + (argList.length===0 ? "" : argList.map(stringifyCall).join(""));
                     } else {
                         var args       = [].slice.call(arguments,0);
                         var newArgList = argList.concat([args.map(normalize)]);
@@ -54,13 +54,13 @@ var LJSON = (function LJSON(){
                 if (value instanceof Array){
                     var source = "[";
                     for (var i=0, l=value.length; i<l; ++i)
-                        source += (i?",":"") + stringify(value[i]);
+                        source += (i?",":"") + normalize(value[i]);
                     return source+"]";
                 } else {
                     var source = "{";
                     var i      = 0;
                     for (var key in value)
-                        source += (i++?",":"") + key + ":" + stringify(value[key]);
+                        source += (i++?",":"") + key + ":" + normalize(value[key]);
                     return source+"}";
                 };
             // For unit types, we just delegate to JSON.stringify.
@@ -72,8 +72,6 @@ var LJSON = (function LJSON(){
             else return null;
         })(value);
     };
-    // TODO: implement the safe parse by adding function and function calls to
-    // JSON's grammar.
     function unsafeParse(a){
         return eval(a);
     };
