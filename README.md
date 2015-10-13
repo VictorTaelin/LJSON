@@ -38,7 +38,7 @@ Output:
 
 ## Primitives
 
-LJSON adds pure functions to JSON and nothing else - no primitive is available. That means you can't use mathematical operators, for-loops, conditionals etc. at all on the functions, because those are not part of the spec. You can still use those when they can be removed before stringification:
+LJSON adds pure functions to JSON and nothing else - no specific primitive is available. That means you can't use mathematical operators, for-loops, conditionals etc. at all on the functions, because those are not part of the spec. You can still use those when they can be removed before stringification:
 
 ```JavaScript
 function repeat10Times(value){
@@ -173,7 +173,7 @@ Because the function always returns the same string.
 
 ## Use cases
 
-There are countless applications to being able to store and interchange code safely. For example, if you are programming a card game, you could allow your players to create their own card effects. To do that safely, you just have ensure functions have only enough access to perform valid in-game moves - and you can do that by restricting the set of primitivies you give them. Similarly, the same technique could enable players of a MMO to send AI for their ingame bots without being able to also send code that multiplies his own items. And you could use LJSON to allow users of your bitcoin exchange to send their own trading strategies without fearing they'll steal your private keys. There are countless uses. Of course, designing LJSON functions requires more patience than designing usual JavaScript functions - but it opens many doors nether less.
+There are countless applications to being able to store and interchange code safely. For example, if you are programming a card game, you could allow your players to create their own card effects. To do that safely, you just have ensure functions have only enough access to perform valid in-game moves - and you can do that by restricting the set of primitivies you give them. Similarly, the same technique could enable players of a MMO to send AI for their ingame bots without being able to also send code that multiplies their own items. And you could use LJSON to allow users of your bitcoin exchange to send their own trading strategies without fearing they'll steal your private keys. There are countless uses. Of course, designing LJSON functions requires more patience than designing usual JavaScript functions - but it opens many doors nether less.
 
 ## TODO
 
