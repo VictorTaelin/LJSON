@@ -14,10 +14,16 @@ var LJSON = (function LJSON(){
             // for the application of the collected argument list.
             function application(varName, argList){
                 var app = function(arg){
-                    if (arg === null)
-                        return varName+(argList.length===0 ? "" : "("+argList.map(function(args){return "("+args.join(",")+")"}).join()+")");
-                    else
-                        return application(varName, argList.concat([[].slice.call(arguments,0).map(normalize)]));
+                    if (arg === null) {
+                        function stringifyCall(args){
+                            return "("+args.join(",")+")"
+                        }
+                        return varName + (argList.length===0 ? "" : "("+argList.map(stringifyCall).join()+")");
+                    } else {
+                        var args       = [].slice.call(arguments,0);
+                        var newArgList = argList.concat([args.map(normalize)]);
+                        return application(varName, newArgList);
+                    };
                 };
                 app.isApplication = true;
                 return app;
