@@ -1,6 +1,6 @@
 ## λJSON 
 
-λJSON is a drop-in replacement for [JSON](http://www.json.org) which also allows you to parse and stringify pure functions and their contents. There are good security reasons for functions to be out of the JSON specs, but most of those are only significant when you allow arbitrary, side-effective programs. With pure functions, one is able to interchange code while still being as safe as regular JSON.
+λJSON is a drop-in replacement for [JSON](http://www.json.org) which also allows you to parse and stringify pure functions and their contents. There are good security reasons for functions to be out of the JSON specs, but most of those are only significant when you allow arbitrary, side-effective programs. With pure functions, one is able to interchange code while still being as safe as with regular JSON.
 
 ```JavaScript
 var LJSON = require("LJSON");
@@ -15,7 +15,7 @@ function newPlayer(name){
         inventory : []}
 };
 
-// LJSON has no trouble doing it because it is pure.
+// LJSON has no trouble doing it because `newPlayer` is pure.
 var newPlayerSource = LJSON.stringify(newPlayer); 
 var John            = LJSON.parse(newPlayerSource)("John");
 
@@ -30,10 +30,10 @@ Output:
 
 ## More info
 
-- [Primitives](primitives)
-- [Safety](safety)
-- [Normal Form](normal-form)
-- [TODO](todo)
+- [Primitives](#primitives)
+- [Safety](#safety)
+- [Normal Form](#normal-form)
+- [TODO](#todo)
 
 ## Primitives
 
@@ -100,7 +100,7 @@ console.log(bhaskara(1,2,-9));
 
 ## Safety
 
-The fact you have to explicitly provide primitives to LJSON functions is what gives you confidence they won't do any nasty thing such as stealing your password, mining bitcoins or launching missiles. LJSON functions can only do what you give them power to. You are still able to serialize side-effective functions, but the side effects will happen on the act of the serialization and stripped from the serialized output.
+The fact you have to explicitly provide primitives to LJSON functions is what gives you confidence they won't do any nasty thing such as stealing your password, mining bitcoins or launching missiles. LJSON functions can only do what you give them power to. You are still able to serialize side-effective functions, but the side effects will happen on the act of the serialization and get stripped from the serialized output.
 
 ```JavaScript
 function nastyPair(a,b){
@@ -114,6 +114,8 @@ function nastyPair(a,b){
         })(b)};
 };
 
+console.log(LJSON.stringify(nastyPair));
+
 // output: 
 // booom
 // mwahahhahha
@@ -124,7 +126,7 @@ function nastyPair(a,b){
 
 ## Normal form
 
-In the same way that JSON stringifies `3e10` as `300` - i.e., only the actual value, not the original source is preserved - λJSON stringifies functions using their [normal forms](https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)). That is, for example:
+In the same way that JSON stringifies `3e2` as `300` - i.e., only the actual value, not the original source is preserved - λJSON stringifies functions using their [normal forms](https://en.wikipedia.org/wiki/Normal_form_(abstract_rewriting)). That is, for example:
 
 ```javascript
 function(x){

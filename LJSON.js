@@ -1,8 +1,7 @@
 // LJSON: JSON extended with pure functions.
 var LJSON = (function LJSON(){
-    // Stringify :: LJSON -> String
-    // Stringifies a JavaScript value 
-    // source code of the resulting function as a string.
+    // stringify :: LJSON -> String
+    // Stringifies a LJSON value. 
     function stringify(value){
         var nextVarId = 0;
         return (function normalize(value){
