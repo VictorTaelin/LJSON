@@ -60,7 +60,7 @@ var LJSON = (function LJSON(){
                     var source = "{";
                     var i      = 0;
                     for (var key in value)
-                        source += (i++?",":"") + key + ":" + stringify(value[key]);
+                        source += (i++?",":"") + JSON.stringify(key) + ":" + stringify(value[key]);
                     return source+"}";
                 };
             // For unit types, we just delegate to JSON.stringify.
