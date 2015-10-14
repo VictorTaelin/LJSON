@@ -56,6 +56,8 @@ var LJSON = (function LJSON(){
                     for (var i=0, l=value.length; i<l; ++i)
                         source += (i?",":"") + normalize(value[i]);
                     return source+"]";
+                } else if (value instanceof Date) {
+                  return 'new Date("' + value.toISOString() + '")';
                 } else {
                     var source = "{";
                     var i      = 0;
@@ -73,7 +75,7 @@ var LJSON = (function LJSON(){
         })(value);
     };
     function unsafeParse(a){
-        return eval(a);
+        return eval(a.replace(/^\s*\{/, 'data = {'));
     };
     return {
         stringify   : stringify,
