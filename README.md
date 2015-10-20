@@ -83,7 +83,11 @@ Where the `$` is an environment with the set of primitives your players are allo
 
 ## Using primitives
 
-LJSON defines functions and function application only - no primitives such as numeric addition. To actually do things with JS numbers, arrays, etc., you need to enable the proper primitives. You can do that either manually or by using LJSON's primitive decorators:
+LJSON defines functions and function application only - no primitives such as numeric addition. So, for example, this is undefined behavior:
+
+    LJSON.stringify(function(x){ return x+1; });
+
+Because the `+1` bit isn't defined on LJSON. To actually do things with JS numbers, arrays, etc., you need to enable the proper primitives. You can do that either manually or by using LJSON's primitive decorators:
 
     withLib(lib, fn)
     withStdLib(fn)
