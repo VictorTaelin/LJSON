@@ -1,6 +1,6 @@
 var LJSON = require("./../LJSON.js");
 
-// LJSON doesn't define any primitive - just function and function application.
+// LJSON doesn't define any primitive - just functions and function application.
 // That means you can't do anything intersting with JS numbers, arrays, etc. -
 // for that, you need to manually provide the primitivies yourself. Since that
 // would be way too cumbersome and repetitive, there is a convenient helper that
