@@ -68,7 +68,7 @@ server.send(script);
 
 // server-side:
 player.onSend("script", function(script){
-    player.installScript(LJSON.parseWithLib(playerLib, script)); // not so bad
+    player.installScript(LJSON.parseWithLib(safeLib, script)); // not so bad
 });
 ```
 
@@ -104,7 +104,7 @@ var hypothenuseVal = LJSON.parseWithStdLib(hypothenuseStr);
 console.log(hypothenuseVal(3,4)); // output: 5
 ```
 
-Remember you have to enable a lib **after** stringifying, communicating/storing and parsing the function. It is the last step. After you call `withStdLib`, the function gains access to primitives outside of the LJSON specs, so `LJSON.stringify` will not work on it anymore!
+Remember you have to enable a lib **after** stringifying, communicating/storing and parsing the function. It is the last step. After you call `withStdLib`, the function gains access to primitives outside of the LJSON specs, so `LJSON.stringify` will not work on it anymore.
 
 ## Safety
 
@@ -121,13 +121,14 @@ function nastyPair(a,b){
             return x;
         })(b)};
 };
+console.log(LJSON.stringify(nastyPair));
 
 // output: 
 // booom
 // mwahahhahha
 // mwahahhahha
 // mwahahhahha
-// (function(v0,v1){return {fst:v0,snd:v1})
+// (v0,v1)=>({fst:v0,snd:v1})
 ```
 
 As a cool side effect of this, you can actually use JS primitives inside functions - as long as they can be eliminated at compile time. In other words, `LJSON.stringify` also works very well as a λ-calculator (due to JS engines speed):
@@ -149,7 +150,7 @@ console.log(LJSON.stringify(function(a){
     };
 
     // Even λ-calculus expressions!
-    var C3  = function(f){return function(x){return f(f(f(x)))}};
+    var C3  = (f)=>(x)=>f(f(f(x)));
     var C27 = C3(C3); // church number exponentiation of 3^3
 
     return [
