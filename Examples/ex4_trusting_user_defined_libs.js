@@ -1,8 +1,4 @@
-LJSON = require("./ljson.js")
-
-// TODO: add simpler examples
-
-// Example #1: trusting an user-defined array library.
+// Warning: this is a very complex example.
 
 // Suppose you want your users to define an array library for you, but you
 // don't trust them. As a good programmer, you know that using `foldr` and
@@ -38,6 +34,7 @@ function userLib(foldr,cons){
 
 // That user stringifies his library and sends it to you via sockets:
 var userLibStr = LJSON.stringify(userLib);
+//console.log(userLibStr);
 
 // For the curious, this is the stringification of `userLibStr`:
 //    (function(v0, v1) {
@@ -86,4 +83,3 @@ var lib = userLib(foldr, cons);
 // On this particular case, you can also be sure his programs will halt.
 console.log(lib.reverse([1,2,3]));
 console.log(lib.concat([1,2,3],[4,5,6]));
-
