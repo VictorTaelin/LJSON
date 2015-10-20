@@ -28,7 +28,7 @@ Serialized value : {"name":"John","mail":(v0)=>({"author":"John","message":v0})}
 mail("hello")    : {"author":"John","message":"hello"}
 ```
 
-See this and more examples on the `Examples` directory.
+See this and more examples on the [`Examples`](https://github.com/MaiaVictor/LJSON/tree/master/Examples) directory.
 
 ## More info
 
@@ -173,6 +173,10 @@ That outputs:
 #### Halting problem (or not really)
 
 There is no protection against non-terminating programs on the general case. A type system could be used to ensure LJSON programs terminate. For example, system F would exclude 100% of the non-terminating programs, at the cost of also throwing away some that would terminate. Yet, I don't think that would be necessary since you can still play very safe with what we have. For example, if you enable only mathematical operators, conditionals and bounded loops as primitives - and if you call your LJSON functions with nothing but first-order values (strings, ints, arrays, etc., but not other functions), then you are safe to say you program will halt. The reason is that, without loop primitives, users can't express things like `while(true)` - and, and since LJSON functions are in normal forms (which is easy to verify mechanically), users can't send non-terminating lambda-calculus expressions such as `(λ x . x x) (λ x . x x)` (those don't have a normal form). That is already enough power to encode most, if not all, practical algorithms, while still being safe to say they won't freeze your server. Anyway, it would be good to debate this a bit more.
+
+#### Standard lib
+
+The "standard lib" is a set of common primitives to enable LJSON functions to operate on JS values. Currently, it only defines 5 math operations, but it should define a lot more (array access, string operations, etc). That should be an easy matter of deciding what functions to include and writting them on `LJSON.js`.
 
 #### Specification
 
