@@ -7,10 +7,10 @@ var LJSON = require("./../LJSON.js");
 // enables the common primitives such as addition, multiplication, array access
 // etc. after you parse a function. It works as follows:
 
-// First, you define your functions with an extra argument, "L".
-// You can use `L` inside the function to access the common primitives.
-var square = function(L,x){
-    return L("*",x,x);
+// First, you define your functions with an extra argument, "$".
+// You can use `$` inside the function to access the common primitives.
+var square = function($,x){
+    return $("*",x,x);
 };
 
 // You stringify your function as usual:
