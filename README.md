@@ -32,10 +32,17 @@ See this and more examples on the [`Examples`](https://github.com/MaiaVictor/LJS
 
 ## More info
 
+- [Installing](#installing)
 - [Why?](#why?)
 - [Using primitives](#using-primitives)
 - [Safety](#safety)
 - [TODO](#todo)
+
+## Installing
+
+    npm install ljson
+
+Or just download `LJSON.js` and `parsinhora.js` and import directly.
 
 ## Why?
 
