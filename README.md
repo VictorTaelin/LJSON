@@ -25,7 +25,7 @@ Output:
 
 ```JavaScript
 Serialized value : {"name":"John","mail":(v0)=>({"author":"John","message":v0})}
-mail("hello")    : {"author":"John","message":"hello"}
+Calling mail     : {"author":"John","message":"hello"}
 ```
 
 See this and more examples on the [`Examples`](https://github.com/MaiaVictor/LJSON/tree/master/Examples) directory.
