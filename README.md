@@ -107,12 +107,12 @@ console.log(nineTimes(9));
 Here, `$` can be understood as "apply function from environment". Since our environment only defines one function, `triple`, that's the only thing `nineTimes` can do. That is, it could multiply a number by 3, by 9, by 27, by 81, etc. - but it couldn't multiply a number by 2. That's how restricted your environment is! Of course, defining your own environment would be cumbersome if you just want to use JS's common functions. For that, there is `LJSON.withStdLib`, which enables an standard environment with most common (pure/safe) functions such as math operators and strings:
 
 ```javascript
-hypothenuse = function($,a,b){
+hypotenuse = function($,a,b){
     return $("sqrt",$("+",$("*",a,a),$("*",b,b)));
 };
-var hypothenuseStr = LJSON.stringify(hypothenuse);
-var hypothenuseVal = LJSON.parseWithStdLib(hypothenuseStr);
-console.log(hypothenuseVal(3,4)); // output: 5
+var hypotenuseStr = LJSON.stringify(hypotenuse);
+var hypotenuseVal = LJSON.parseWithStdLib(hypotenuseStr);
+console.log(hypotenuseVal(3,4)); // output: 5
 ```
 
 Remember you have to enable a lib **after** stringifying, communicating/storing and parsing the function. It is the last step. After you call `withStdLib`, the function gains access to primitives outside of the LJSON specs, so `LJSON.stringify` will not work on it anymore.

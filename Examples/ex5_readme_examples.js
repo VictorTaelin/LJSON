@@ -19,14 +19,14 @@ console.log("Serialized value : " + personStr);
 console.log("Calling mail     : " + LJSON.stringify(mail));
 
 
-// Hypothenuse example
+// Hypotenuse example
 
-hypothenuse = function($,a,b){
+hypotenuse = function($,a,b){
     return $("sqrt",$("+",$("*",a,a),$("*",b,b)));
 };
-var hypothenuseStr = LJSON.stringify(hypothenuse);
-var hypothenuseVal = LJSON.parseWithStdLib(hypothenuseStr);
-console.log(hypothenuseVal(3,4));
+var hypotenuseStr = LJSON.stringify(hypotenuse);
+var hypotenuseVal = LJSON.parseWithStdLib(hypotenuseStr);
+console.log(hypotenuseVal(3,4));
 
 
 // Crazy example
