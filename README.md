@@ -33,6 +33,7 @@ See this and more examples on the [`Examples`](https://github.com/MaiaVictor/LJS
 ## More info
 
 - [Installing](#installing)
+- [Other languages](#other-languages)
 - [Why?](#why?)
 - [Using primitives](#using-primitives)
 - [Safety](#safety)
@@ -43,6 +44,10 @@ See this and more examples on the [`Examples`](https://github.com/MaiaVictor/LJS
     npm install ljson
 
 Or just download `LJSON.js` and `parsinhora.js` and import directly.
+
+## Other languages
+
+Currently, there is a port to [PHP](https://github.com/Kanti/LJSON) kindly made by [Kanti](https://github.com/Kanti).
 
 ## Why?
 
