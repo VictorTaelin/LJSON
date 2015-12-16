@@ -33,7 +33,12 @@ var LJSON = (function LJSON(){
             };
             // If we try to normalize an application, we apply
             // it to `null` to stop the argument-collecting.
-            if (value.isApplication) 
+            if (value === undefined)
+                return value;
+
+            // If we try to normalize an application, we apply
+            // it to `null` to stop the argument-collecting.
+            else if (value.isApplication)
                 return value(null);
             // If it is a function, we need to create an application for its
             // variable, and call the function on it, so its variable can start
@@ -109,6 +114,7 @@ var LJSON = (function LJSON(){
             // - a JSON array  (ex: `[1,2,"aff"]`);
             // - a JSON object (ex: `{"a":1, "b":"ghost"}`);
             // - the JSON null (ex: null);
+            // - a LJSON undefined (ex: undefined);
             // - a LJSON function following the grammar:
             //     (var0, var1, varN) => body
             // - a LJSON variable following the grammar:
@@ -116,16 +122,22 @@ var LJSON = (function LJSON(){
             function LJSON_value(binders,scope){
                 return function(){
                     return P.choice([
+                        LJSON_boolean(binders,scope),
                         LJSON_number(binders,scope),
                         LJSON_string(binders,scope),
                         LJSON_array(binders,scope),
                         LJSON_object(binders,scope),
+                        LJSON_null(binders,scope),
+                        LJSON_undefined(binders,scope),
                         LJSON_application(binders,scope),
                         LJSON_lambda(binders,scope)])();
                 };
             };
             function LJSON_boolean(binders,scope){
                 return choice([P.string("true"),P.string("false")]);
+            };
+            function LJSON_undefined(binders,scope){
+                return P.string("undefined");
             };
             function LJSON_null(binders,scope){
                 return P.string("null");
