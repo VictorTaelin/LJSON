@@ -1,3 +1,5 @@
+var LJSON = require("./../LJSON.js");
+
 // Warning: this is a very complex example.
 
 // Suppose you want your users to define an array library for you, but you

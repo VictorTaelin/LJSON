@@ -1,6 +1,5 @@
 var LJSON = require("./../LJSON.js");
 
-
 // First example
 
 // A random JS object with a pure function inside.

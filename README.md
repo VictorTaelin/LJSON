@@ -72,7 +72,7 @@ Except that is probably the worst idea ever. Trusting user defined code is a sec
 ```javascript
 // client-side
 function playerScript($,player){
-    $("if", $("targetInRange", player, "poring"),
+    return $("if", $("targetInRange", player, "poring"),
         $("castSpell", player, "fire bolt", $("findTarget", player, "poring")));
 };
 var script = LJSON.stringify(playerScript);

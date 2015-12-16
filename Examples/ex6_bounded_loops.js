@@ -1,4 +1,4 @@
-LJSON = require("./../LJSON.js");
+var LJSON = require("./../LJSON.js");
 
 // Lets create an environment with only 2 functions,
 // inc (adds 1 to a number)
