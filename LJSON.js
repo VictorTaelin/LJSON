@@ -31,15 +31,22 @@ var LJSON = (function LJSON(){
                 app.isApplication = true;
                 return app;
             };
-            // If we try to normalize an application, we apply
-            // it to `null` to stop the argument-collecting.
-            if (value === undefined)
+            // For unit types, we just return.
+            if (value === undefined || value === null){
                 return value;
-
+            }
+            // For unit types, we just delegate to JSON.stringify.
+            else if (typeof value === "string"
+                || typeof value === "number"
+                || typeof value === "boolean"
+            ) {
+                return JSON.stringify(value);
+            }
             // If we try to normalize an application, we apply
             // it to `null` to stop the argument-collecting.
-            else if (value.isApplication)
+            else if (value.isApplication) {
                 return value(null);
+            }
             // If it is a function, we need to create an application for its
             // variable, and call the function on it, so its variable can start
             // collecting the argList for the places where it is called on the
@@ -56,9 +63,10 @@ var LJSON = (function LJSON(){
                 };
                 var body = normalize(value.apply(null,argApps));
                 return "("+argNames.join(",")+")=>("+body+")";
+            }
             // For container types (objects and arrays), it is just a matter
             // of calling stringify on the contained values recursively.
-            } else if (typeof value === "object") {
+            else if (typeof value === "object") {
                 if (value instanceof Array){
                     var source = "[";
                     for (var i=0, l=value.length; i<l; ++i)
@@ -73,13 +81,7 @@ var LJSON = (function LJSON(){
                         source += (i++?",":"") + JSON.stringify(key) + ":" + normalize(value[key]);
                     return source+"}";
                 };
-            // For unit types, we just delegate to JSON.stringify.
-            } else if 
-                (  typeof value === "string" 
-                || typeof value === "number" 
-                || typeof value === "boolean")
-                return JSON.stringify(value);
-            else return null;
+            }
         })(value);
     };
 
@@ -134,7 +136,7 @@ var LJSON = (function LJSON(){
                 };
             };
             function LJSON_boolean(binders,scope){
-                return choice([P.string("true"),P.string("false")]);
+                return P.choice([P.string("true"),P.string("false")]);
             };
             function LJSON_undefined(binders,scope){
                 return P.string("undefined");
