@@ -31,10 +31,22 @@ var LJSON = (function LJSON(){
                 app.isApplication = true;
                 return app;
             };
+            // For unit types, we just return.
+            if (value === undefined || value === null){
+                return value;
+            }
+            // For unit types, we just delegate to JSON.stringify.
+            else if (typeof value === "string"
+                || typeof value === "number"
+                || typeof value === "boolean"
+            ) {
+                return JSON.stringify(value);
+            }
             // If we try to normalize an application, we apply
             // it to `null` to stop the argument-collecting.
-            if (value.isApplication) 
+            else if (value.isApplication) {
                 return value(null);
+            }
             // If it is a function, we need to create an application for its
             // variable, and call the function on it, so its variable can start
             // collecting the argList for the places where it is called on the
@@ -51,9 +63,10 @@ var LJSON = (function LJSON(){
                 };
                 var body = normalize(value.apply(null,argApps));
                 return "("+argNames.join(",")+")=>("+body+")";
+            }
             // For container types (objects and arrays), it is just a matter
             // of calling stringify on the contained values recursively.
-            } else if (typeof value === "object") {
+            else if (typeof value === "object") {
                 if (value instanceof Array){
                     var source = "[";
                     for (var i=0, l=value.length; i<l; ++i)
@@ -68,13 +81,7 @@ var LJSON = (function LJSON(){
                         source += (i++?",":"") + JSON.stringify(key) + ":" + normalize(value[key]);
                     return source+"}";
                 };
-            // For unit types, we just delegate to JSON.stringify.
-            } else if 
-                (  typeof value === "string" 
-                || typeof value === "number" 
-                || typeof value === "boolean")
-                return JSON.stringify(value);
-            else return null;
+            }
         })(value);
     };
 
@@ -109,6 +116,7 @@ var LJSON = (function LJSON(){
             // - a JSON array  (ex: `[1,2,"aff"]`);
             // - a JSON object (ex: `{"a":1, "b":"ghost"}`);
             // - the JSON null (ex: null);
+            // - a LJSON undefined (ex: undefined);
             // - a LJSON function following the grammar:
             //     (var0, var1, varN) => body
             // - a LJSON variable following the grammar:
@@ -116,16 +124,22 @@ var LJSON = (function LJSON(){
             function LJSON_value(binders,scope){
                 return function(){
                     return P.choice([
+                        LJSON_boolean(binders,scope),
                         LJSON_number(binders,scope),
                         LJSON_string(binders,scope),
                         LJSON_array(binders,scope),
                         LJSON_object(binders,scope),
+                        LJSON_null(binders,scope),
+                        LJSON_undefined(binders,scope),
                         LJSON_application(binders,scope),
                         LJSON_lambda(binders,scope)])();
                 };
             };
             function LJSON_boolean(binders,scope){
-                return choice([P.string("true"),P.string("false")]);
+                return P.choice([P.string("true"),P.string("false")]);
+            };
+            function LJSON_undefined(binders,scope){
+                return P.string("undefined");
             };
             function LJSON_null(binders,scope){
                 return P.string("null");
