@@ -184,17 +184,3 @@ That outputs:
     (v1)=>("I'm always returned"),
     (v2)=>((v3)=>(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v2(v3)))))))))))))))))))))))))))))])
 ```
-
-## TODO
-
-#### Think about the halting problem (or not really)
-
-There is no protection against non-terminating programs on the general case. A type system could be used to ensure LJSON programs terminate. For example, system F would exclude 100% of the non-terminating programs, at the cost of also throwing away some that would terminate. Yet, I don't think that would be necessary since you can still play very safe with what we have. For example, if you enable only mathematical operators, conditionals and bounded loops as primitives - and if you call your LJSON functions with nothing but first-order values (strings, ints, arrays, etc., but not other functions), then you are safe to say you program will halt. Without loop primitives, users can't express things like `while(true)` - and without high-order functions, users can't build non-terminating expressions such as `((x) => x(x))((x) => x(x))`. See the [bounded loops example](https://github.com/MaiaVictor/LJSON/blob/master/Examples/ex6_bounded_loops.js).
-
-#### Standard lib
-
-The "standard lib" is a set of common primitives to enable LJSON functions to operate on JS values. Currently, it only defines 5 math operations, but it should define a lot more (array access, string operations, etc). That should be an easy matter of deciding what functions to include and writting them on `LJSON.js`.
-
-#### Specification
-
-And, of course, a precise specification. The informal specification can be stated as the JSON extended with functions operationally equivalent to the λ-calculus, except for allowing multiple arguments on abstractions and calls.
