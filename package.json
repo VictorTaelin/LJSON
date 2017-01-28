@@ -1,0 +1,43 @@
+{
+  "author": {
+    "name": "Victor Maia"
+  },
+  "bugs": {
+    "url": "https://github.com/MaiaVictor/LJSON/issues"
+  },
+  "dependencies": {},
+  "description": "JSON extended with pure functions.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "1a513a16e078103a7f7e56c10d3b6a0c7065675f",
+    "tarball": "https://registry.npmjs.org/ljson/-/ljson-2.0.0.tgz"
+  },
+  "gitHead": "534041f7af54f075fe5721c9de4d85f86421a919",
+  "homepage": "https://github.com/MaiaVictor/LJSON#readme",
+  "keywords": [
+    "JSON",
+    "lambda-calculus",
+    "functional-programming",
+    "functions"
+  ],
+  "license": "MIT",
+  "main": "LJSON.js",
+  "maintainers": [
+    {
+      "name": "maiavictor",
+      "email": "srvictormaia@gmail.com"
+    }
+  ],
+  "name": "ljson",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaiaVictor/LJSON.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.1.0"
+}

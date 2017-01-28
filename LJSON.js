@@ -56,7 +56,7 @@ var LJSON = (function LJSON(){
                 var argNames = [];
                 var argApps  = [];
                 for (var i=0, l=value.length; i<l; ++i){
-                    var argName = "v"+(nextVarId++);
+                    var argName = toName(nextVarId++);
                     var app     = application(argName, []);
                     argNames.push(argName);
                     argApps.push(app);
@@ -291,7 +291,7 @@ var LJSON = (function LJSON(){
                         newScope[varList[i]] = binders + i;
 
                     var body = P.betweenSpaced(P.chr("("),LJSON_value(binders+varList.length, newScope),P.chr(")"))();
-                    var args = varList.map(function(name,i){return "v"+(binders+i)}).join(",");
+                    var args = varList.map(function(name,i){return toName(binders+i)}).join(",");
 
                     return "(function("+args+"){return "+body+"})";
                 };
@@ -319,7 +319,7 @@ var LJSON = (function LJSON(){
                         return null;
                     if (scope[name] === undefined)
                         throw ("LJSON parse error: "+name+" is not defined");
-                    return "v" + scope[name];
+                    return toName(scope[name]);
                 };
             };
 
@@ -390,6 +390,18 @@ var LJSON = (function LJSON(){
     // Convenient function to parse and use `withStdLib`.
     function parseWithStdLib(src){
         return withStdLib(parse(src));
+    };
+
+    // toName :: Number -> String
+    // Turns a number into a var name (a, b, c... aa, ab...).
+    function toName(nat){
+      var alphabet = "abcdefghijklmnopqrstuvwxyz";
+      var name = "";
+      do {
+        name += alphabet[nat % alphabet.length];
+        nat = Math.floor(nat / alphabet.length);
+      } while (nat > 0);
+      return name;
     };
 
     return {
