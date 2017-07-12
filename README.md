@@ -30,6 +30,8 @@ Calling mail     : {"author":"John","message":"hello"}
 
 See this and more examples on the [`Examples`](https://github.com/MaiaVictor/LJSON/tree/master/Examples) directory.
 
+Also check [Moon-lang](https://github.com/MaiaVictor/moon-lang), the spiritual successor of LJSON which includes primitive operations.
+
 ## More info
 
 - [Installing](#installing)
